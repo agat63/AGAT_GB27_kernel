@@ -12,14 +12,14 @@ TXTCLR='\e[0m'    		# Text Reset
 
 ## Sets variables for kernel build
 export ARCH=arm
-export DEFCONFIG=agat
+export DEFCONFIG=u1_na_spr
 export BASEDIR=`readlink -f ..`
 export KERNELDIR=`readlink -f .`
-export INITRAMFS_SOURCE=$BASEDIR/E4GT_Multiboot_initramfs
+export INITRAMFS_SOURCE=$BASEDIR/initramfs_gb27_jb
 export INITRAMFS_TMP="/tmp/initramfs-e4gt"
 export JOBS=`grep 'processor' /proc/cpuinfo | wc -l`
-export VARIANT=AGAT_FL24_kernel
-export RELEASE_VER=Agat_FL24-v1.0.0
+export VARIANT=AGAT_GB27_kernel
+export RELEASE_VER=Agat_GB27-v1.0.0
 export CROSS_COMPILE=~/E4GT/arm-eabi-4.4.3/bin/arm-eabi-
 
 ## Command line options that allow overriding defaults, if desired.
