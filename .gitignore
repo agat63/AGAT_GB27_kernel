@@ -35,6 +35,8 @@ modules.builtin
 *.gcno
 *.tar
 *.zip
+*.log
+patch*
 
 #
 # Top-level generic files
