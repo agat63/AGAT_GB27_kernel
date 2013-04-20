@@ -7577,7 +7577,7 @@ free_work:
 static void intel_sanitize_modesetting(struct drm_device *dev,
 				       int pipe, int plane)
 {
-	struct drm_i915_private *dev_priv = dev->dev_private;
+	
 	u32 reg, val;
 	int i;
 
@@ -8680,7 +8680,8 @@ static void i830_init_clock_gating(struct drm_device *dev)
 static void ibx_init_clock_gating(struct drm_device *dev)
 {
 	struct drm_i915_private *dev_priv = dev->dev_private;
-
+	int pipe;
+	
 	/*
 	 * On Ibex Peak and Cougar Point, we need to disable clock
 	 * gating for the panel power sequencer or it will fail to
