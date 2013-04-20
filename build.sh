@@ -20,7 +20,7 @@ export INITRAMFS_TMP="/tmp/initramfs-e4gt"
 export JOBS=`grep 'processor' /proc/cpuinfo | wc -l`
 export VARIANT=AGAT_GB27_kernel
 export RELEASE_VER=Agat_GB27-v1.0.0
-export CROSS_COMPILE=~/E4GT/arm-eabi-4.4.3/bin/arm-eabi-
+export CROSS_COMPILE=~/E4GT/toolchains-4.4.3/bin/arm-eabi-
 
 ## Command line options that allow overriding defaults, if desired.
 
