@@ -12,7 +12,7 @@ TXTCLR='\e[0m'    		# Text Reset
 
 ## Sets variables for kernel build
 export ARCH=arm
-export DEFCONFIG=u1_na_spr
+export DEFCONFIG=agat
 export BASEDIR=`readlink -f ..`
 export KERNELDIR=`readlink -f .`
 export INITRAMFS_SOURCE=$BASEDIR/initramfs_gb27_jb
