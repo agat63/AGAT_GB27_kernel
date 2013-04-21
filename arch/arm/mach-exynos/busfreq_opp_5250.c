@@ -28,7 +28,7 @@
 #include <linux/slab.h>
 #include <linux/opp.h>
 #include <linux/clk.h>
-#include <mach/busfreq_exynos5.h>
+#include <mach/busfreq.h>
 
 #include <asm/mach-types.h>
 
@@ -184,18 +184,24 @@ static unsigned int clkdiv_lex[LV_INT_END][2] = {
 	/* ATCLK_LEX L0 : 200MHz */
 	{0, 1},
 
-	/* ATCLK_LEX L1 : 166MHz */
+	/* ATCLK_LEX L1 : 200MHz */
 	{0, 1},
 
-	/* ATCLK_LEX L2 : 133MHz */
+	/* ATCLK_LEX L2 : 166MHz */
 	{0, 1},
 
-	/* ATCLK_LEX L3 : 114MHz */
+	/* ATCLK_LEX L3 : 133MHz */
+	{0, 1},
+
+	/* ATCLK_LEX L4 : 114MHz */
+	{0, 1},
+
+	/* ATCLK_LEX L5 : 100MHz */
 	{0, 1},
 };
 
 /* For CMU_R0X */
-static unsigned int clkdiv_r0x[LV_INT_END][1] = {
+static unsigned int clkdiv_r0x[LV_END][1] = {
 	/*
 	 * Clock divider value for following
 	 * { DIVPCLK_R0X }
@@ -204,18 +210,24 @@ static unsigned int clkdiv_r0x[LV_INT_END][1] = {
 	/* ACLK_PR0X L0 : 133MHz */
 	{1},
 
-	/* ACLK_DR0X L1 : 100MHz */
+	/* ACLK_PR0X L1 : 133MHz */
 	{1},
 
-	/* ACLK_PR0X L2 : 80MHz */
+	/* ACLK_DR0X L2 : 100MHz */
 	{1},
 
-	/* ACLK_PR0X L3 : 67MHz */
+	/* ACLK_PR0X L3 : 80MHz */
+	{1},
+
+	/* ACLK_PR0X L4 : 67MHz */
+	{1},
+
+	/* ACLK_PR0X L5 : 50MHz */
 	{1},
 };
 
 /* For CMU_R1X */
-static unsigned int clkdiv_r1x[LV_INT_END][1] = {
+static unsigned int clkdiv_r1x[LV_END][1] = {
 	/*
 	 * Clock divider value for following
 	 * { DIVPCLK_R1X }
@@ -224,18 +236,24 @@ static unsigned int clkdiv_r1x[LV_INT_END][1] = {
 	/* ACLK_PR1X L0 : 133MHz */
 	{1},
 
-	/* ACLK_DR1X L1 : 100MHz */
+	/* ACLK_PR1X L1 : 133MHz */
 	{1},
 
-	/* ACLK_PR1X L2 : 80MHz */
+	/* ACLK_DR1X L2 : 100MHz */
 	{1},
 
-	/* ACLK_PR1X L3 : 67MHz */
+	/* ACLK_PR1X L3 : 80MHz */
+	{1},
+
+	/* ACLK_PR1X L4 : 67MHz */
+	{1},
+
+	/* ACLK_PR1X L5 : 50MHz */
 	{1},
 };
 
 /* For CMU_TOP */
-static unsigned int clkdiv_top[LV_INT_END][10] = {
+static unsigned int clkdiv_top[LV_END][10] = {
 	/*
 	 * Clock divider value for following
 	 * { DIVACLK400_ISP, DIVACLK400_IOP, DIVACLK266, DIVACLK_200, DIVACLK_66_PRE,
@@ -286,11 +304,20 @@ static unsigned int clkdiv_cdrex_for667[LV_MIF_END][9] = {
 	/* MCLK_CDREX L1: 334MHz */
 	{0, 1, 1, 1, 4, 2, 1, 5, 1},
 
-	/* MCLK_CDREX L2: 111MHz */
-	{0, 5, 1, 4, 4, 5, 1, 8, 1},
+	/* MCLK_CDREX L2: 222MHz */
+	{0, 2, 1, 2, 4, 3, 1, 6, 1},
+
+	/* MCLK_CDREX L3: 167MHz */
+	{0, 3, 1, 3, 4, 4, 1, 7, 1},
+
+	/* MCLK_CDREX L4: 133MHz */
+	{0, 4, 1, 4, 4, 5, 1, 8, 1},
+
+	/* MCLK_CDREX L5: 133MHz */
+	{0, 4, 1, 4, 4, 5, 1, 8, 1},
 };
 
-static unsigned int clkdiv_cdrex_for533[LV_MIF_END][9] = {
+static unsigned int clkdiv_cdrex_for533[LV_END][9] = {
 	/*
 	 * Clock divider value for following
 	 * { DIVMCLK_DPHY, DIVMCLK_CDREX2, DIVACLK_CDREX, DIVMCLK_CDREX,
@@ -303,11 +330,20 @@ static unsigned int clkdiv_cdrex_for533[LV_MIF_END][9] = {
 	/* MCLK_CDREX L1: 267MHz */
 	{0, 1, 1, 1, 3, 2, 1, 5, 1},
 
-	/* MCLK_CDREX L2: 107MHz */
+	/* MCLK_CDREX L2: 178MHz */
+	{0, 2, 1, 2, 3, 3, 1, 6, 1},
+
+	/* MCLK_CDREX L3: 133MHz */
+	{0, 3, 1, 3, 3, 4, 1, 7, 1},
+
+	/* MCLK_CDREX L4: 107MHz */
 	{0, 4, 1, 4, 3, 5, 1, 8, 1},
+
+	/* MCLK_CDREX L5: 67MHz */
+	{0, 7, 1, 3, 7, 7, 1, 15, 1},
 };
 
-static unsigned int __maybe_unused clkdiv_cdrex_for400[LV_MIF_END][9] = {
+static unsigned int __maybe_unused clkdiv_cdrex_for400[LV_END][9] = {
 	/*
 	 * Clock divider value for following
 	 * { DIVMCLK_DPHY, DIVMCLK_CDREX2, DIVACLK_CDREX, DIVMCLK_CDREX,
@@ -320,7 +356,16 @@ static unsigned int __maybe_unused clkdiv_cdrex_for400[LV_MIF_END][9] = {
 	/* MCLK_CDREX L1: 267MHz */
 	{1, 2, 1, 2, 2, 2, 1, 5, 1},
 
-	/* MCLK_CDREX L2: 100MHz */
+	/* MCLK_CDREX L2: 200MHz */
+	{1, 3, 1, 3, 2, 3, 1, 6, 1},
+
+	/* MCLK_CDREX L3: 160MHz */
+	{1, 4, 1, 4, 2, 4, 1, 7, 1},
+
+	/* MCLK_CDREX L4: 133MHz */
+	{1, 5, 1, 5, 2, 5, 1, 8, 1},
+
+	/* MCLK_CDREX L5: 100MHz */
 	{1, 7, 1, 2, 7, 7, 1, 15, 1},
 };
 
@@ -659,7 +704,6 @@ int exynos5250_init(struct device *dev, struct busfreq_data *data)
 	unsigned long maxfreq = ULONG_MAX;
 	unsigned long minfreq = 0;
 	unsigned long cdrexfreq;
-	unsigned long lrbusfreq;
 	struct clk *clk;
 	int ret;
 
@@ -675,33 +719,21 @@ int exynos5250_init(struct device *dev, struct busfreq_data *data)
 		return ret;
 	}
 	cdrexfreq = clk_get_rate(clk) / 1000;
-	clk_put(clk);
 
-	clk = clk_get(NULL, "aclk_266");
-	if (IS_ERR(clk)) {
-		dev_err(dev, "Fail to get aclk_266 clock");
-		ret = PTR_ERR(clk);
-		return ret;
-	}
-	lrbusfreq = clk_get_rate(clk) / 1000;
 	clk_put(clk);
 
 	if (cdrexfreq == 800000) {
 		clkdiv_cdrex = clkdiv_cdrex_for800;
-		exynos5_busfreq_table_mif = exynos5_busfreq_table_for800;
-		exynos5_mif_volt = exynos5_mif_volt_for800;
-	} else if (cdrexfreq == 666857) {
+		exynos5_busfreq_table = exynos5_busfreq_table_for800;
+	} else if (cdrexfreq == 667000) {
 		clkdiv_cdrex = clkdiv_cdrex_for667;
-		exynos5_busfreq_table_mif = exynos5_busfreq_table_for667;
-		exynos5_mif_volt = exynos5_mif_volt_for667;
+		exynos5_busfreq_table = exynos5_busfreq_table_for667;
 	} else if (cdrexfreq == 533000) {
 		clkdiv_cdrex = clkdiv_cdrex_for533;
-		exynos5_busfreq_table_mif = exynos5_busfreq_table_for533;
-		exynos5_mif_volt = exynos5_mif_volt_for533;
+		exynos5_busfreq_table = exynos5_busfreq_table_for533;
 	} else if (cdrexfreq == 400000) {
 		clkdiv_cdrex = clkdiv_cdrex_for400;
-		exynos5_busfreq_table_mif = exynos5_busfreq_table_for400;
-		exynos5_mif_volt = exynos5_mif_volt_for400;
+		exynos5_busfreq_table = exynos5_busfreq_table_for400;
 	} else {
 		dev_err(dev, "Don't support cdrex table\n");
 		return -EINVAL;
