@@ -100,7 +100,7 @@ struct musb_ep;
  * override that choice selection (often USB_GADGET_DUMMY_HCD).
  */
 #ifndef CONFIG_USB_GADGET_MUSB_HDRC
-#error bogus Kconfig output ... select CONFIG_USB_GADGET_MUSB_HDRC
+/* #error bogus Kconfig output ... select CONFIG_USB_GADGET_MUSB_HDRC */
 #endif
 #endif	/* need MUSB gadget selection */
 
