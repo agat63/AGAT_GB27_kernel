@@ -19,7 +19,7 @@ export INITRAMFS_SOURCE=$BASEDIR/initramfs_gar
 export INITRAMFS_TMP="/tmp/initramfs-e4gt"
 export JOBS=`grep 'processor' /proc/cpuinfo | wc -l`
 export VARIANT=AGAT_GB27_kernel
-export RELEASE_VER=Agat_GB27-v1.4.0
+export RELEASE_VER=Agat_GB27-v1.4.3
 export CROSS_COMPILE=~/E4GT/toolchains-4.4.3/bin/arm-eabi-
 
 ## Command line options that allow overriding defaults, if desired.
@@ -145,9 +145,9 @@ echo -e "	${TXTGRN}Build: Stage 1 building modules ...${TXTCLR}"
 nice -n 10 make -j$JOBS modules 2>&1 | tee compile-modules.log
 
 ## Let's compile frandom with each kernel build
-cd  ${KERNELDIR}/../frandom-1.1
-make
-cd ${KERNELDIR}
+# cd  ${KERNELDIR}/../frandom-1.1
+# make
+# cd ${KERNELDIR}
 
 if [ "$?" != "0" ];
 then
@@ -188,7 +188,7 @@ then
 fi
 
 find -name '*.ko' -exec cp -av {} $INITRAMFS_TMP/lib/modules/ \;
-cp $KERNELDIR/../frandom-1.1/frandom.ko $INITRAMFS_TMP/lib/modules/frandom.ko
+# cp $KERNELDIR/../frandom-1.1/frandom.ko $INITRAMFS_TMP/lib/modules/frandom.ko
 
 sleep 1
 
